@@ -9,36 +9,17 @@ def am_time_now():
     return str(now_am.strftime(fmt))
 
 
-def user_time_compare():
+def user_time_compare(user_date):
 
     now_time = datetime.now()
-    now_local = now_time.astimezone()
+    now_local = user_date
     ny = pytz.timezone('America/New_York')
     now_ny = ny.localize(now_time)
 
     localVsUtc = now_local.strftime('%z')
     utcVsNY = now_ny.strftime('%z')
 
-    output = {'local time': str(now_local), 'NY time': str(now_ny), 'difference': ''}
-
     if localVsUtc[0:1] and utcVsNY[0:1] == '+':
-        if int(localVsUtc[1:3]) > int(utcVsNY[1:3]):
-            output['difference'] = "Local time is ahead of New York one on " + str(int(localVsUtc[1:3]) - int(utcVsNY[1:3]))
-            return output
-        else:
-            output['difference'] = "New York time is ahead of local one on " + str(int(localVsUtc[1:3]) - int(utcVsNY[1:3]))
-            return output
+        return '+' + str(abs(int(localVsUtc[1:3]) - int(utcVsNY[1:3])))
     else:
-        if int(localVsUtc[1:3]) < int(utcVsNY[1:3]):
-             output['difference'] = "Local time is ahead of New York one on " + str(int(localVsUtc[1:3]) + int(utcVsNY[1:3]))
-             return output
-        else:
-             output['difference'] = "New York time is ahead of local one on " + str(int(localVsUtc[1:3]) + int(utcVsNY[1:3]))
-             return output
-
-
-
-
-
-
-
+        return str(int(localVsUtc[0:3]) + int(utcVsNY[0:3]))
