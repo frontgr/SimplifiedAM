@@ -1,9 +1,11 @@
-from flask import Flask
+import datetime
+
+from flask import Flask, request
 from flask_cors import CORS
 from MongoDB import Database
 import Time
 import json
-from Sqlite3DB import SQLDB
+from Sqlite3DB import SQL3DB
 
 
 app = Flask(__name__)
@@ -21,8 +23,9 @@ def index():
 def return_time():
     output = {'location': 'Yerevan'}
     output['time'] = Time.am_time_now()
-    # Try request
-    return output
+    local_time = request.headers['timezone']
+    output['difference'] = Time.user_time_compare(local_time)
+    return json.dumps(output)
 
 
 @app.route('/armenian-cities', methods=['GET'])
@@ -32,15 +35,16 @@ def cities():
 
 @app.route('/ararat-info', methods=['GET'])
 def get_ararat():
-    db = SQLDB()
-    if db.output_ararat():
-        return {'status': 'Ok', 'output': db.output_ararat()}
+    dbA = SQL3DB()
+    if dbA.output_ararat():
+        return {'status': 'Ok', 'output': dbA.output_ararat()}
     else:
         return {'message': 'error', 'message': 'Oops, something went wrong!'}
 
 
 @app.route('/armenian-dishes', methods=['GET'])
 def dishes():
+    dbD = SQL3DB()
     return 0
 
 #

@@ -2,18 +2,21 @@ import sqlite3
 import json
 
 
-class SQLDB:
+class SQL3DB:
     def __init__(self):
-        self.con = sqlite3.connect('mountain-info.db')
+        self.con = sqlite3.connect('info.db')
         self.cur = self.con.cursor()
 
         with open('Ararat.json', 'r') as f:
-            self.data = json.load(f)
+            self.ararat_data = json.load(f)
 
-        self.cur.execute("DROP TABLE IF EXISTS Ararat")
-        self.cur.execute('CREATE TABLE Ararat(ID INT PRIMARY KEY, info TEXT NOT NULL)')
+        with open('Dishes.json', 'r') as f1:
+            self.dishes_data = json.load(f1)
 
-        self.cur.execute("""INSERT INTO Ararat (info) VALUES(?)""", (self.data['info']['Ararat'],))
+        self.cur.execute("DROP TABLE IF EXISTS StoredInfo")
+        self.cur.execute('CREATE TABLE StoredInfo(ID INT PRIMARY KEY, name TEXT NOT NULL, info TEXT NOT NULL)')
+
+        self.cur.execute("""INSERT INTO StoredInfo (info) VALUES(?, ?)""", (self.ararat_data['mountain']['Ararat'], self.dishes_data['dishes'], ))
         self.con.commit()
 
     def output_ararat(self):
