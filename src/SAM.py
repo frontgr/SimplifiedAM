@@ -1,9 +1,6 @@
-import datetime
-
 from flask import Flask, request
 from flask_cors import CORS
 from MongoDB import Database
-import Time
 import json
 from Sqlite3DB import SQL3DB
 
@@ -19,13 +16,14 @@ def index():
     return json.dumps('It is not ready yet!!')
 
 
-@app.route('/get-time', methods=['GET', 'POST'])
-def return_time():
-    output = {'location': 'Yerevan'}
-    output['time'] = Time.am_time_now()
-    local_time = request.headers['timezone']
-    output['difference'] = Time.user_time_compare(local_time)
-    return json.dumps(output)
+@app.route('/time', methods=['GET'])
+def ret_time():
+    output = {}
+    user_timezone = request.args.get('user_timezone')[3:]
+    us_hours = int(user_timezone.split(':')[0])
+    usm_minutes = user_timezone.split(':')[1]
+    output['difference'] = f"{4 - us_hours}:{usm_minutes}:00"
+    return output
 
 
 @app.route('/armenian-cities', methods=['GET'])
