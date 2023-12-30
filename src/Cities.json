@@ -1,0 +1,14 @@
+{
+  "cities":
+    {"Yerevan" :
+      {"name": "Yerevan", "population": 1091700},
+     "Gyumri":
+      {"name": "Gyumri", "population": 116800},
+     "Vanadzor":
+      {"name": "Vanadzor", "population":  76000},
+     "Abovyan":
+      {"name": "Abovyan", "population":  44900},
+     "Kapan":
+      {"name": "Kapan", "population":  41300}
+    }
+}

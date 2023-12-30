@@ -1,14 +1,11 @@
 from flask import Flask, request
+import requests
 from flask_cors import CORS
-from MongoDB import Database
 import json
-from Sqlite3DB import SQL3DB
 
 
 app = Flask(__name__)
 CORS(app)
-
-database = Database()
 
 
 @app.route('/', methods=['GET'])
@@ -28,27 +25,32 @@ def ret_time():
 
 @app.route('/armenian-cities', methods=['GET'])
 def cities():
-    return 0
+    with open('Cities.json') as c:
+        return json.load(c)
 
 
 @app.route('/ararat-info', methods=['GET'])
 def get_ararat():
-    dbA = SQL3DB()
-    if dbA.output_ararat():
-        return {'status': 'Ok', 'output': dbA.output_ararat()}
-    else:
-        return {'message': 'error', 'message': 'Oops, something went wrong!'}
+    with open('Ararat.json.json') as a:
+        return json.load(a)
 
 
 @app.route('/armenian-dishes', methods=['GET'])
 def dishes():
-    dbD = SQL3DB()
-    return 0
+    with open('Dishes.json') as meal:
+        return json.load(meal)
 
-#
-# @app.route('/random-armenian-word', methods=['GET'])
-# def get_rand_word():
-#     return json.dumps(json_util.dumps(database.rand_words()), ensure_ascii=False).encode('utf8')
+
+@app.route('/random-armenian-word', methods=['GET'])
+def get_rand_word():
+    with open('new_dict.json', 'r', encoding='utf-8') as d:
+        di = json.load(d)
+    ks = list(di.keys())
+    url = "https://www.random.org/integers/?num=1&min=0&max=92966&col=5&base=10&format=plain&rnd=new"
+    request_number = requests.get(url)
+    rand_number = int(request_number.text)
+    out = {ks[rand_number]: di[ks[rand_number]]}
+    return out
 
 
 if __name__ == "__main__":

@@ -5,29 +5,11 @@ services:
     build:
       dockerfile: src/Dockerfile
     command: gunicorn --bind 0.0.0.0:5002 wsgi:app
-    env_file:
-      - .env
     ports:
       - "8086:5002"
     container_name: my-sam
     networks:
       - default
-
-#  mongodb:
-#    image: mongo
-#    restart: always
-#    ports:
-#      - "27019:27017"
-#    expose:
-#      - "27019"
-#    volumes:
-#      - ./data:/sam-data/db
-#    container_name: sam-mongo
-#    env_file:
-#      - .env
-#    networks:
-#      - default
-
 
 networks:
   default:
