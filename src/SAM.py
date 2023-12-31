@@ -51,8 +51,8 @@ def get_rand_word():
     url = "https://www.random.org/integers/?num=1&min=0&max=92966&col=5&base=10&format=plain&rnd=new"
     request_number = requests.get(url)
     rand_number = int(request_number.text)
-    out = {ks[rand_number]: di[ks[rand_number]]}
-    return out
+    output_word = {ks[rand_number]: di[ks[rand_number]]}
+    return output_word
 
 
 if __name__ == "__main__":
