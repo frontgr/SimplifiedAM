@@ -15,12 +15,14 @@ def index():
 
 @app.route('/time', methods=['GET'])
 def ret_time():
-    output = {}
-    user_timezone = request.args.get('user_timezone')[3:]
-    us_hours = int(user_timezone.split(':')[0])
-    usm_minutes = user_timezone.split(':')[1]
-    output['difference'] = f"{4 - us_hours}:{usm_minutes}:00"
-    return output
+        output = {}
+        user_timezone = request.args.get('user_timezone')[3:]
+        us_hours = int(user_timezone.split(':')[0])
+        us_minutes = int(user_timezone.split(':')[1])
+        if (abs(us_hours) + us_minutes//60) > 12 or (us_minutes/60 != 1/2):
+            return {'status': 'error', 'message': 'Wrong UTC value'}
+        output['difference'] = f"{4 - us_hours}:{us_minutes}:00"
+        return output
 
 
 @app.route('/armenian-cities', methods=['GET'])
