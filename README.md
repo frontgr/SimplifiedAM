@@ -18,7 +18,7 @@ About this project:
 
 ---
 
-## To run the app
+## To run the app:
 Create docker-network in your working directory:
 
 ```yaml
@@ -48,4 +48,3 @@ docker-compose up
 ---
 ## Additional tools:
 For simplicity of sending requests, you can use [Postman](https://learning.postman.com/docs/introduction/overview/) 
-
