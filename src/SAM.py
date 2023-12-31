@@ -10,7 +10,7 @@ CORS(app)
 
 @app.route('/', methods=['GET'])
 def index():
-    return json.dumps('It is not ready yet!!')
+    return 'Do not look at me!!'
 
 
 @app.route('/time', methods=['GET'])
